@@ -1,0 +1,4 @@
+aca van tus archivos de configuracion, url de base de datos, conexion a redis, rabbit, etc
+
+no van librerias
+no van inicializacion de funciones ni parecido
