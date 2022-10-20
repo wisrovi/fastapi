@@ -1,0 +1,39 @@
+version: '3.8'
+
+volumes:
+  volume_selenium:
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    #image: fastapi
+    container_name: 'rpa_api'
+    volumes:
+      - ./:rpa_api/
+    env_file:
+      - ./.env
+    ports:
+      - "8001:8001"
+    command: uvicorn config:app --host=0.0.0.0 --port=8001 --reaload
+
+  selenium:
+    image: "selenium/standalone-chrome:latest"
+    container_name: "selenium0"
+    hostname: "selenium"
+    restart: "unless-stopped"
+    volumes:
+      - "volume_selenium:/selenium"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+    container_name: c_rbmq-qa
+    environment:
+      - "RABBITMQ_DEFAULT_USER=admin"
+      - "RABBITMQ_DEFAULT_PASS=admin"
+
+    ports:
+      - '5670:5672'
+      - '15670:15672'
