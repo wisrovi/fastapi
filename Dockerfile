@@ -2,8 +2,11 @@ FROM python:3.9
 
 ENV PYTHONUNBUFFERED 1
 
-COPY . /rpa_api
-COPY ./docker/app_start /rpa_api/app_start
+
+WORKDIR /rpa_api
+
+COPY .src /rpa_api
+
 
 RUN apt-get update 
     # \
@@ -16,4 +19,3 @@ RUN pip install -r /rpa_api/requirements.txt
 
 RUN chmod +x /rpa_api/app_start
 
-WORKDIR /rpa_api

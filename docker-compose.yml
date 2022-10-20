@@ -5,15 +5,12 @@ volumes:
 
 services:
   app:
-    build:
-      context: ./
-      dockerfile: docker/Dockerfile
-    #image: fastapi
+    build: .
     container_name: 'rpa_api'
     volumes:
-      - ./:rpa_api/
+      - ./src:/rpa_api/
     env_file:
-      - ./.env
+      - ./:.env
     ports:
       - "8001:8001"
     command: uvicorn config:app --host=0.0.0.0 --port=8001 --reaload
@@ -28,12 +25,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-
     container_name: c_rbmq-qa
     environment:
       - "RABBITMQ_DEFAULT_USER=admin"
       - "RABBITMQ_DEFAULT_PASS=admin"
-
     ports:
       - '5670:5672'
       - '15670:15672'
